@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LeagueTrainer</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="navbar-fixed-top">
+  <div class="container">
+    <p>League Tracker</p>
+  </div>
+</div>
+<div class="container">
+  <%= yield %>
+</div>
+<footer>
+  <div class="container">
+    <p>Vico Enterprizes 2014</p>
+  </div>
+</footer>
+
+
+
+</body>
+</html>
