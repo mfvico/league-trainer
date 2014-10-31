@@ -15,3 +15,5 @@ Track what champions the player is best and worst with, and some recommendations
 This is a personal project done in tandem with gSchool, this is not for profit (yet)
 
 check it out on heroku: http://nameless-fortress-9753.herokuapp.com/
+
+
