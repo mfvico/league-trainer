@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :users
 
   root "pages#index"
+
+  get 'signup' => 'registrations#new', as: :signup
+  post 'signup' => 'registrations#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
