@@ -9,6 +9,15 @@
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
+          <ul class="nav navbar-nav navbar_right pull-right">
+            <% if current_user %>
+              <li><%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path("#{current_user.id}") %></li>
+              <li><%= link_to "Sign Out", signout_path, class: "ul nav" %></li>
+            <% else %>
+              <li><%= link_to "Sign Up", signup_path %></li>
+              <li><%= link_to "Sign In", signin_path %></li>
+            <% end %>
+          </ul>
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
@@ -25,16 +34,33 @@
         </div>
       </div>
 <div class="container">
-  <%= link_to "Sign Up", signup_path %>
+
   <%= yield %>
 </div>
+<div class="container">
 <footer>
-  <div class="container">
-    <p>&copy;Vico Enterprizes 2014</p>
-    <a href="https://www.linkedin.com/profile/view?id=357920236&trk=nav_responsive_tab_profile" target="_blank">LinkedIn</a>
-    <a href="https://twitter.com/vicomello" target="_blank">Twitter</a>
+  <p>&copy; Mello Incorporated 2014</p>
+  <div class="col-md-4">
+    <p>
+    <%= link_to_unless_current "Users", users_path %> |
+  </p>
+  </div>
+  <div class="col-md-2 col-md-offset-10">
+    <%= link_to "https://www.linkedin.com/in/mellodan" do %>
+      <%= image_tag("linked_in.png", width: "20em")%>
+    <% end %> |
+    <%= link_to "https://github.com/mfvico" do %>
+      <%= image_tag("GitHub-Mark.png", width: "20em")%>
+    <% end %> |
+    <%= link_to "https://twitter.com/vicomello" do %>
+      <%= image_tag("Twitter_logo.png", width: "20em")%>
+    <% end %> |
+    <%= link_to "http://students.gschool.it" do %>
+      <%= image_tag("Galvanize-g.png", width: "20em")%>
+    <% end %>
   </div>
 </footer>
+</div>
 
 
 
