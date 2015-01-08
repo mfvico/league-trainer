@@ -1,4 +1,4 @@
-<h1> <%= @champion["data"]["#{params[:id]}"]["id"] %> </h1>
+<h1> <%= @champion["data"]["#{params[:id]}"]["name"] %> </h1>
 
 <table>
   <thead>
@@ -16,19 +16,43 @@
     </tr>
     <tr>
       <td>Resource Type</td>
-      <td> <%= @champion["data"]["#{params[:id]}"]["partype"] %> </td>
+      <td> <%= @partype %> </td>
     </tr>
     <tr>
       <td>Resource</td>
-      <td> <%= @champion["data"]["#{params[:id]}"]["stats"]["mp"] %> </td>
+      <td> <%= @mp %> </td>
     </tr>
     <tr>
       <td>Resource Regen</td>
-      <td> <%= @champion["data"]["#{params[:id]}"]["stats"]["mpregen"] %> </td>
+      <td> <%= @mpregen %> </td>
+    </tr>
+    <tr>
+      <td>Attack Damage</td>
+      <td> <%= @attack_damage %> </td>
+    </tr>
+    <tr>
+      <td>Attack Damage Per Level</td>
+      <td> <%= @attack_damage_per_level %> </td>
     </tr>
     <tr>
       <td>Movement Speed</td>
-      <td> <%= @champion["data"]["#{params[:id]}"]["stats"]["movespeed"] %> </td>
+      <td> <%= @movespeed %> </td>
+    </tr>
+    <tr>
+      <td>Armor</td>
+      <td> <%= @armor %> </td>
+    </tr>
+    <tr>
+      <td>Armor per Level</td>
+      <td> <%= @armorperlevel %> </td>
+    </tr>
+    <tr>
+      <td>Magic Resist</td>
+      <td> <%= @spellblock %> </td>
+    </tr>
+    <tr>
+      <td>Magic Resist per Level</td>
+      <td> <%= @spellblockperlevel %> </td>
     </tr>
   </tbody>
 </table>
