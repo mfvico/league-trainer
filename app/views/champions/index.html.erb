@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1>List of Current Champions</h1>
+</div>
+<table class="table">
+  <thead>
+    <th>Champion</th>
+    <th></th>
+  </thead>
+  <tbody>
+
+    <% @champions["data"].each do |value| %>
+      <% value.each do |champion| %>
+        <% unless champion.class == String %>
+          <tr>
+            <td>
+              <%= link_to champion["name"], champion_path( champion["id"]) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

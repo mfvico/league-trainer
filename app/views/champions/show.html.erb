@@ -1,0 +1,34 @@
+<h1> <%= @champion["data"]["#{params[:id]}"]["id"] %> </h1>
+
+<table>
+  <thead>
+    <th>Key (All values are at level 1)</th>
+    <th>Value</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HP</td>
+      <td> <%= @hp %> </td>
+    </tr>
+    <tr>
+      <td>HP Regen per 5 sec</td>
+      <td> <%= @hpregen %> </td>
+    </tr>
+    <tr>
+      <td>Resource Type</td>
+      <td> <%= @champion["data"]["#{params[:id]}"]["partype"] %> </td>
+    </tr>
+    <tr>
+      <td>Resource</td>
+      <td> <%= @champion["data"]["#{params[:id]}"]["stats"]["mp"] %> </td>
+    </tr>
+    <tr>
+      <td>Resource Regen</td>
+      <td> <%= @champion["data"]["#{params[:id]}"]["stats"]["mpregen"] %> </td>
+    </tr>
+    <tr>
+      <td>Movement Speed</td>
+      <td> <%= @champion["data"]["#{params[:id]}"]["stats"]["movespeed"] %> </td>
+    </tr>
+  </tbody>
+</table>

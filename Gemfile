@@ -36,7 +36,8 @@ group :development, :test do
   gem 'capybara'
   gem 'rspec-rails'
   gem 'launchy'
-  gem 'better_errors'
+  gem 'pry'
+  gem 'dotenv-rails'
 end
 
 # Use ActiveModel has_secure_password
@@ -45,6 +46,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem "haml"
 
 gem "haml-rails"
+
+gem "faraday"
 
 # Use unicorn as the app server
 # gem 'unicorn'
