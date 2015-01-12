@@ -1,59 +1,12 @@
-<h1> <%= @name %> </h1>
-<h3> <%= @title %> </h3>
-
 <table>
   <thead>
-    <th>Key (All values are at level 1)</th>
-    <th>Value</th>
+    <th>Stat(all values at lvl 1)</th>
+    <th>Stat</th>
   </thead>
   <tbody>
     <tr>
-      <td>HP</td>
-      <td> <%= @hp %> </td>
-    </tr>
-    <tr>
-      <td>HP Regen per 5 sec</td>
-      <td> <%= @hpregen %> </td>
-    </tr>
-    <tr>
-      <td>Resource Type</td>
-      <td> <%= @partype %> </td>
-    </tr>
-    <tr>
-      <td>Resource</td>
-      <td> <%= @mp %> </td>
-    </tr>
-    <tr>
-      <td>Resource Regen</td>
-      <td> <%= @mpregen %> </td>
-    </tr>
-    <tr>
-      <td>Attack Damage</td>
-      <td> <%= @attack_damage %> </td>
-    </tr>
-    <tr>
-      <td>Attack Damage Per Level</td>
-      <td> <%= @attack_damage_per_level %> </td>
-    </tr>
-    <tr>
-      <td>Movement Speed</td>
-      <td> <%= @movespeed %> </td>
-    </tr>
-    <tr>
-      <td>Armor</td>
-      <td> <%= @armor %> </td>
-    </tr>
-    <tr>
-      <td>Armor per Level</td>
-      <td> <%= @armorperlevel %> </td>
-    </tr>
-    <tr>
-      <td>Magic Resist</td>
-      <td> <%= @spellblock %> </td>
-    </tr>
-    <tr>
-      <td>Magic Resist per Level</td>
-      <td> <%= @spellblockperlevel %> </td>
+      <td>Health</td>
+      <td><%= @champion_hash[:hp] %> </td>
     </tr>
   </tbody>
 </table>

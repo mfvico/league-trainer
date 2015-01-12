@@ -44,6 +44,10 @@ class ApplicationController < ActionController::Base
     @attack_damage_per_level = stats["attackdamageperlevel"]
   end
 
+  def champion_stats_at_18
+    champion_stats
+  end
+
   def champion_lore
     champion = JSON.parse open("http://ddragon.leagueoflegends.com/cdn/4.20.1/data/en_US/champion/#{params[:id]}.json").read
     @name = champion["data"]["#{params[:id]}"]["name"]

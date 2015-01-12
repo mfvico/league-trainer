@@ -5,7 +5,9 @@ class CalculatorsController < ApplicationController
   end
 
   def show
+    @calculator = Calculator.new
     champion_stats
+    champion_lore
   end
 
 end

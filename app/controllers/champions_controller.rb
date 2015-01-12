@@ -7,11 +7,12 @@ require 'open-uri'
   end
 
   def show
+    @champion = Champion.new(params[:id])
     if params[:id] == "Wukong"
       params[:id] = "MonkeyKing"
     end
-    champion_stats
-    champion_lore
+    @champion_hash = @champion.stats_at_lvl1(params[:id])
+
   end
 
   private
