@@ -6,7 +6,53 @@
   <tbody>
     <tr>
       <td>Health</td>
-      <td><%= @champion_hash[:hp] %> </td>
+      <td><%= @champion_hash[:stats][:hp]%> </td>
+    </tr>
+    <tr>
+      <td>HP Regen</td>
+      <td><%= @champion_hash[:stats][:hpregen]%> </td>
+    </tr>
+
+    <tr>
+      <td><%= @champion_hash[:resource] %></td>
+      <td><%= @champion_hash[:stats][:mp] %> </td>
+    </tr>
+    <tr>
+      <td><%= @champion_hash[:resource] %> Regen</td>
+      <% if @champion_hash[:stats][:mpregen] == 0 %>
+        <td>0</td>
+      <% else %>
+        <td><%= @champion_hash[:stats][:mpregen] %> </td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>Attack Damage</td>
+      <td><%= @champion_hash[:stats][:attackdamage]%> </td>
+    </tr>
+    <tr>
+      <td>Armor</td>
+      <td><%= @champion_hash[:stats][:armor]%> </td>
+    </tr>
+    <tr>
+      <td>Magic Resist</td>
+      <td><%= @champion_hash[:stats][:spellblock]%> </td>
+    </tr>
+    <tr>
+      <td>Crit</td>
+      <td><%= @champion_hash[:stats][:crit]%>% </td>
+    </tr>
+    <tr>
+      <td>Attack Speed</td>
+      <td><%= @champion_hash[:stats][:attackspeed]%> </td>
     </tr>
   </tbody>
 </table>
+
+<p>
+  what level would you like to see the stats for?
+</p>
+<% 2.upto(18) do |i| %>
+  <p>
+    <%= link_to i, champion_path(level: i) %>
+  </p>
+<% end %>

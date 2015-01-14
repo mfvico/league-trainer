@@ -1,29 +1,68 @@
+require 'open-uri'
+
 class Champion
 
+  CHAMPION_ATTRS = [
+    :hp,
+    :mp,
+    :armor,
+    :spellblock,
+    :hpregen,
+    :mpregen,
+    :crit,
+    :attackdamage,
+    :attackspeed,
+  ]
+
+  CHAMPION_INCREASES = {
+    mp: :mpperlevel,
+    hp: :hpperlevel,
+    armor: :armorperlevel,
+    spellblock: :spellblockperlevel,
+    hpregen: :hpregenperlevel,
+    mpregen: :mpregenperlevel,
+    crit: :critperlevel,
+    attackdamage: :attackdamageperlevel,
+    attackspeed: :attackspeedperlevel
+  }
+
   def initialize(champion)
+    @champion = champion
     @raw_data = JSON.parse open("http://ddragon.leagueoflegends.com/cdn/4.20.1/data/en_US/champion/#{champion}.json").read
-
   end
 
-  def stats_at_lvl1(champion)
-    hash = {}
-    hash[:hp] = @raw_data["data"]["#{champion}"]["stats"]["hp"] *1000.to_i
-    hash[:hpprelevel] =@raw_data["data"]["#{champion}"]["stats"]["hpperlevel"]*1000.to_i
-    hash[:hpregen] =@raw_data["data"]["#{champion}"]["stats"]["hpregen"]*1000.to_i
-    hash[:hpregenperlevel] =@raw_data["data"]["#{champion}"]["stats"]["hpregenperlevel"]*1000.to_i
-    hash[:resource] = @raw_data["data"]["#{champion}"]["partype"]*1000.to_i
-    hash[:mp] = @raw_data["data"]["#{champion}"]["stats"]["mp"]*1000.to_i
-    hash[:mpregen] = @raw_data["data"]["#{champion}"]["stats"]["mpregen"]*1000.to_i
-    hash[:mpperlevel] = @raw_data["data"]["#{champion}"]["stats"]["mpperlevel"]*1000.to_i
-    hash[:movespeed] = @raw_data["data"]["#{champion}"]["stats"]["movespeed"]*1000.to_i
-    hash[:armor] = @raw_data["data"]["#{champion}"]["stats"]["armor"]*1000.to_i
-    hash[:armorperlevel] = @raw_data["data"]["#{champion}"]["stats"]["armorperlevel"]*1000.to_i
-    hash[:spellblock] = @raw_data["data"]["#{champion}"]["stats"]["spellblock"]*1000.to_i
-    hash[:spellblockperlevel] = @raw_data["data"]["#{champion}"]["stats"]["spellblockperlevel"]*1000.to_i
-    hash[:attackdamage] = @raw_data["data"]["#{champion}"]["stats"]["attackdamage"]*1000.to_i
-    hash[:attackdamageperlevel] = @raw_data["data"]["#{champion}"]["stats"]["attackdamageperlevel"]*1000.to_i
-    return hash
+  def stats_at_lvl1
+    hash = {stats: {}}
+
+    @raw_data["data"][@champion]["stats"].each do |key, value|
+      hash[:stats][key.to_sym] = value
+    end
+
+    hash[:resource] = @raw_data["data"][@champion]["partype"]
+    hash[:stats][:attackspeed] = (0.625/(1+hash[:stats][:attackspeedoffset]))
+    hash
   end
 
+  # level is 2 - 18
+  # returns the stats that they have at that specific level
+  # base value + increase value * growthstat
+  def stats_per_level( level)
+    champion_stats = stats_at_lvl1
+    2.upto(level) do |i|
+      CHAMPION_ATTRS.each do |key|
+        if CHAMPION_INCREASES[key]
+          increase_per_level = champion_stats[:stats][CHAMPION_INCREASES[key]]
+          if key == :attackspeed
+            base_atkspd = champion_stats[:stats][key]
+            champion_stats[:stats][key] += base_atkspd * (increase_per_level * (((i * 3.5)+ 65)/100)/100)
+          else
+            champion_stats[:stats][key] += increase_per_level * (((i * 3.5) + 65)/100)
+          end
+          champion_stats[:stats][key] = champion_stats[:stats][key].round(3)
+        end
+      end
+    end
+    champion_stats
+  end
 
 end
