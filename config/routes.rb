@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users
   resources :champions
   resources :calculators
+  resources :items
 
   root "pages#index"
 
