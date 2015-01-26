@@ -49,6 +49,8 @@ gem "haml-rails"
 
 gem "faraday"
 
+gem "nokogiri"
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

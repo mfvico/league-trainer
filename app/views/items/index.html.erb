@@ -1,1 +1,19 @@
-<%= @item_list %>
+<h1>List of Items</h1>
+<table class = "table">
+  <thead>
+    <th>Name</th>
+    <th>Stats</th>
+  </thead>
+  <tbody>
+    <% @item_list[:data].each do |key, value| %>
+    <tr>
+      <td>
+        <%= link_to value[:name], item_path(key) %>
+      </td>
+      <td>
+        <%= value[:description] %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

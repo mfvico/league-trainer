@@ -39,7 +39,7 @@ class Champion
     end
 
     hash[:resource] = @raw_data["data"][@champion]["partype"]
-    hash[:stats][:attackspeed] = (0.625/(1+hash[:stats][:attackspeedoffset]))
+    hash[:stats][:attackspeed] = (0.625/(1+hash[:stats][:attackspeedoffset])).round(3)
     hash
   end
 
