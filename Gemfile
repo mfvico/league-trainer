@@ -51,6 +51,10 @@ gem "faraday"
 
 gem "nokogiri"
 
+gem "faker"
+
+gem 'rack-cors', :require => 'rack/cors'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

@@ -8,7 +8,6 @@ class ItemsController < ApplicationController
   def show
     items = Item.new
     @item_details = items.item_details(params[:id])
-    binding.pry
   end
 
 end

@@ -26,12 +26,17 @@ class Item
 
   def conversion(input)
     input[:stats] ||= []
-    doc = Nokogiri::HTML(input[:description].gsub('<br>', '||||'))
-    array = doc.css('stats').text.split('||||')
-    array.each do |stats|
-      data = stats.split(' ')
-      hash = Hash[data[1] => data[0]]
-      input[:stats] << hash
+    input[:unique] ||= []
+    stats_doc = Nokogiri::HTML(input[:description].gsub('<br>', '||||'))
+    unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>', '||||'))
+    stats_array = stats_doc.css('stats').text.split('||||')
+    unique_array = unique_doc.text.split("||||")
+    unique = unique_array.pop
+    input[:unique] << unique
+    stats_array.each do |stats|
+      stats_data = stats.split(' ')
+      stats_hash = Hash[stats_data[1].to_sym => stats_data[0].to_i]
+      input[:stats] << stats_hash
     end
     input
   end
