@@ -8,18 +8,15 @@
   </thead>
   <tbody>
 
-    <% @champion_list.each do |champion| %>
-
-      <% if champion.class == String %>
+    <% @champions[:data].each do |champion, info| %>
         <tr>
           <td>
-            <%= link_to champion, champion_path(champion) %>
+            <%= link_to info[:name], champion_path(info[:id]) %>
           </td>
           <td>
-            <%= link_to "Calculator", calculator_path(champion) %>
+            <%= link_to "Calculator", calculator_path(info[:id]) %>
           </td>
         </tr>
-      <% end %>
     <% end %>
   </tbody>
 </table>

@@ -1,13 +1,12 @@
 class CalculatorsController < ApplicationController
 
   def index
-
+    @champion = champion_list
   end
 
   def show
-    @calculator = Calculator.new
-    champion_stats
-    champion_lore
+    
+
   end
 
 end

@@ -3,19 +3,15 @@ require 'json'
 require 'open-uri'
   def index
     league_api = LeagueAPI.new
-    champion_list
+    @champions = Champion.new.champion_list
   end
 
   def show
-    if params[:id] == "Wukong"
-      params[:id] = "MonkeyKing"
-    end
-    @champion = Champion.new(params[:id])
     if params[:level] == nil
-      @champion_hash = @champion.stats_at_lvl1
+      @champion = Champion.new.champion_info(params[:id])
     else
       level = params[:level].to_i
-      @champion_hash = @champion.stats_per_level(level)
+      @champion = Champion.new.stats_per_level(params[:id], level)
     end
   end
 

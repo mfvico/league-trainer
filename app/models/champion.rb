@@ -26,28 +26,31 @@ class Champion
     attackspeed: :attackspeedperlevel
   }
 
-  def initialize(champion)
-    @champion = champion
-    @raw_data = JSON.parse open("http://ddragon.leagueoflegends.com/cdn/4.20.1/data/en_US/champion/#{champion}.json").read
+  def initialize
+    @conn = Faraday.new(:url => 'https://na.api.pvp.net')
   end
 
-  def stats_at_lvl1
-    hash = {stats: {}}
-
-    @raw_data["data"][@champion]["stats"].each do |key, value|
-      hash[:stats][key.to_sym] = value
+  def champion_list
+    response = @conn.get do |req|
+      req.url "/api/lol/static-data/na/v1.2/champion?api_key=#{ENV['PRIVATE_KEY']}"
     end
+    raw_data =  JSON.parse(response.body, symbolize_names: true)
+  end
 
-    hash[:resource] = @raw_data["data"][@champion]["partype"]
-    hash[:stats][:attackspeed] = (0.625/(1+hash[:stats][:attackspeedoffset])).round(3)
-    hash
+  def champion_info(champion)
+    response = @conn.get do |req|
+      req.url "/api/lol/static-data/na/v1.2/champion/#{champion}?champData=all&api_key=#{ENV['PRIVATE_KEY']}"
+    end
+    champion_info =  JSON.parse(response.body, symbolize_names: true)
+    champion_info[:stats][:attackspeed] = (0.625/(1+champion_info[:stats][:attackspeedoffset])).round(3)
+    champion_info
   end
 
   # level is 2 - 18
   # returns the stats that they have at that specific level
   # base value + increase value * growthstat
-  def stats_per_level( level)
-    champion_stats = stats_at_lvl1
+  def stats_per_level(champion, level)
+    champion_stats = champion_info(champion)
     2.upto(level) do |i|
       CHAMPION_ATTRS.each do |key|
         if CHAMPION_INCREASES[key]

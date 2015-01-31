@@ -1,3 +1,5 @@
+<h1><%= @champion[:name] %></h1>
+<h3><%= @champion[:title] %></h3>
 <table>
   <thead>
     <th>Stat(all values at lvl 1)</th>
@@ -6,44 +8,44 @@
   <tbody>
     <tr>
       <td>Health</td>
-      <td><%= @champion_hash[:stats][:hp]%> </td>
+      <td><%= @champion[:stats][:hp]%> </td>
     </tr>
     <tr>
       <td>HP Regen</td>
-      <td><%= @champion_hash[:stats][:hpregen]%> </td>
+      <td><%= @champion[:stats][:hpregen]%> </td>
     </tr>
 
     <tr>
-      <td><%= @champion_hash[:resource] %></td>
-      <td><%= @champion_hash[:stats][:mp] %> </td>
+      <td><%= @champion[:partype] %></td>
+      <td><%= @champion[:stats][:mp] %> </td>
     </tr>
     <tr>
-      <td><%= @champion_hash[:resource] %> Regen</td>
-      <% if @champion_hash[:stats][:mpregen] == 0 %>
+      <td><%= @champion[:resource] %> Regen</td>
+      <% if @champion[:stats][:mpregen] == 0 %>
         <td>0</td>
       <% else %>
-        <td><%= @champion_hash[:stats][:mpregen] %> </td>
+        <td><%= @champion[:stats][:mpregen] %> </td>
       <% end %>
     </tr>
     <tr>
       <td>Attack Damage</td>
-      <td><%= @champion_hash[:stats][:attackdamage]%> </td>
+      <td><%= @champion[:stats][:attackdamage]%> </td>
     </tr>
     <tr>
       <td>Armor</td>
-      <td><%= @champion_hash[:stats][:armor]%> </td>
+      <td><%= @champion[:stats][:armor]%> </td>
     </tr>
     <tr>
       <td>Magic Resist</td>
-      <td><%= @champion_hash[:stats][:spellblock]%> </td>
+      <td><%= @champion[:stats][:spellblock]%> </td>
     </tr>
     <tr>
       <td>Crit</td>
-      <td><%= @champion_hash[:stats][:crit]%>% </td>
+      <td><%= @champion[:stats][:crit]%>% </td>
     </tr>
     <tr>
       <td>Attack Speed</td>
-      <td><%= @champion_hash[:stats][:attackspeed]%> </td>
+      <td><%= @champion[:stats][:attackspeed]%> </td>
     </tr>
   </tbody>
 </table>
