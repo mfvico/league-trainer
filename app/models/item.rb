@@ -16,30 +16,29 @@ class Item
 
   def item_details(id)
     response = @conn.get do |req|
-      req.url "/api/lol/static-data/na/v1.2/item/#{id}?api_key=#{ENV['PRIVATE_KEY']}"
+      req.url "/api/lol/static-data/na/v1.2/item/#{id}?itemData=all&api_key=#{ENV['PRIVATE_KEY']}"
     end
     raw_data =  JSON.parse(response.body, symbolize_names: true)
-    conversion(raw_data)
   end
 
   private
 
-  def conversion(input)
-    input[:stats] ||= []
-    input[:unique] ||= []
-    stats_doc = Nokogiri::HTML(input[:description].gsub('<br>', '||||'))
-    unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>', '||||'))
-    stats_array = stats_doc.css('stats').text.split('||||')
-    unique_array = unique_doc.text.split("||||")
-    unique = unique_array.pop
-    input[:unique] << unique
-    stats_array.each do |stats|
-      stats_data = stats.split(' ')
-      stats_hash = Hash[stats_data[1].to_sym => stats_data[0].to_i]
-      input[:stats] << stats_hash
-    end
-    input
-  end
+  # def conversion(input)
+  #   input[:stats] ||= []
+  #   input[:unique] ||= []
+  #   stats_doc = Nokogiri::HTML(input[:description].gsub('<br>', '||||'))
+  #   unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>', '||||'))
+  #   stats_array = stats_doc.css('stats').text.split('||||')
+  #   unique_array = unique_doc.text.split("||||")
+  #   unique = unique_array.pop
+  #   input[:unique] << unique
+  #   stats_array.each do |stats|
+  #     stats_data = stats.split(' ')
+  #     stats_hash = Hash[stats_data[1].to_sym => stats_data[0].to_i]
+  #     input[:stats] << stats_hash
+  #   end
+  #   input
+  # end
 
 
 
