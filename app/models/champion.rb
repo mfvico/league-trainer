@@ -37,9 +37,11 @@ class Champion
     raw_data =  JSON.parse(response.body, symbolize_names: true)
   end
 
-  def champion_info(champion)
+  def champion_info(info, champion)
     response = @conn.get do |req|
       req.url "/api/lol/static-data/na/v1.2/champion/#{champion}?champData=all&api_key=#{ENV['PRIVATE_KEY']}"
+      req.headers['champData'] = info
+      req.headers['api_key'] = ENV['PRIVATE_KEY']
     end
     champion_info =  JSON.parse(response.body, symbolize_names: true)
     champion_info[:stats][:attackspeed] = (0.625/(1+champion_info[:stats][:attackspeedoffset])).round(3)
@@ -49,8 +51,8 @@ class Champion
   # level is 2 - 18
   # returns the stats that they have at that specific level
   # base value + increase value * growthstat
-  def stats_per_level(champion, level)
-    champion_stats = champion_info(champion)
+  def stats_per_level(info, champion, level)
+    champion_stats = champion_info(info, champion)
     2.upto(level) do |i|
       CHAMPION_ATTRS.each do |key|
         if CHAMPION_INCREASES[key]

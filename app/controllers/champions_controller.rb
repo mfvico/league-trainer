@@ -8,10 +8,10 @@ require 'open-uri'
 
   def show
     if params[:level] == nil
-      @champion = Champion.new.champion_info(params[:id])
+      @champion = Champion.new.champion_info('all', params[:id])
     else
       level = params[:level].to_i
-      @champion = Champion.new.stats_per_level(params[:id], level)
+      @champion = Champion.new.stats_per_level('all', params[:id], level)
     end
   end
 
