@@ -1,22 +1,20 @@
 class Calculator
 
-  require 'open-uri'
-
   MATH_PROCS = {
-    add: Proc.new {|stat, increase| stat + increase},
-    percent: Proc.new {|stat, increase| (stat * (1+increase)).round(3)}
+    add: ->(stat, increase) { stat + increase },
+    percent: ->(stat, increase) { (stat * (1+increase)).round(3) }
   }
 
   ITEM_ATTRS = {
-    FlatArmorMod: {stat: :armor, math: :add},
-    PercentAttackSpeedMod:{stat: :attackspeed, math: :percent},
-    PercentMovementSpeedMod:{stat: :movespeed, math: :percent},
-    FlatCritChanceMod:{stat: :crit, math: :add},
-    FlatHPPoolMod:{stat: :hp, math: :add},
-    FlatMagicDamageMod:{stat: :ap, math: :add},
-    FlatPhysicalDamageMod:{stat: :attackdamage, math: :add},
-    FlatMPPoolMod: {stat: :mp, math: :add},
-    FlatSpellBlockMod:{stat: :spellblock, math: :add},
+    FlatArmorMod: {stat: :armor, math: MATH_PROCS[:add]},
+    PercentAttackSpeedMod:{stat: :attackspeed, math: MATH_PROCS[:percent]},
+    PercentMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:percent]},
+    FlatCritChanceMod:{stat: :crit, math: MATH_PROCS[:add]},
+    FlatHPPoolMod:{stat: :hp, math: MATH_PROCS[:add]},
+    FlatMagicDamageMod:{stat: :ap, math: MATH_PROCS[:add]},
+    FlatPhysicalDamageMod:{stat: :attackdamage, math: MATH_PROCS[:add]},
+    FlatMPPoolMod: {stat: :mp, math: MATH_PROCS[:add]},
+    FlatSpellBlockMod:{stat: :spellblock, math: MATH_PROCS[:add]},
   }
 
   def initialize(champion)
@@ -34,8 +32,7 @@ class Calculator
         item_attrs = ITEM_ATTRS[stat_key]
         champ_stat = @champion[:stats_with_items][item_attrs[:stat]]
 
-        math_key = item_attrs[:math]
-        new_value = MATH_PROCS[math_key].call(champ_stat, stat_value)
+        new_value = item_attrs[:math].call(champ_stat, stat_value)
 
         @champion[:stats_with_items][item_attrs[:stat]] = new_value
       end
