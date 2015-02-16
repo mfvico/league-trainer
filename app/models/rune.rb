@@ -15,7 +15,7 @@ class Rune
 
   def rune_data(info, rune)
     response = @conn.get do |req|
-      req.url "/api/lol/static-data/na/v1.2/rune/#{rune}?runeData=#{info}&api_key=#{ENV['PRIVATE_KEY']}"
+      req.url "/api/lol/static-data/na/v1.2/rune/#{rune}"
       req.params['runeData'] = info
       req.params['api_key'] = ENV['PRIVATE_KEY']
     end
