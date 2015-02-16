@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :users
+  resources :users do
+    resources :runes
+    resources :masteries
+    resources :match_history
+  end
   resources :champions
   resources :calculators
   resources :items

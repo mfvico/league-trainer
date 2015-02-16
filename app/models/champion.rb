@@ -32,16 +32,17 @@ class Champion
 
   def champion_list
     response = @conn.get do |req|
-      req.url "/api/lol/static-data/na/v1.2/champion?api_key=#{ENV['PRIVATE_KEY']}"
+      req.url "/api/lol/static-data/na/v1.2/champion"
+      req.params['api_key'] = ENV['PRIVATE_KEY']
     end
     raw_data =  JSON.parse(response.body, symbolize_names: true)
   end
 
   def champion_info(info, champion)
     response = @conn.get do |req|
-      req.url "/api/lol/static-data/na/v1.2/champion/#{champion}?champData=all&api_key=#{ENV['PRIVATE_KEY']}"
-      req.headers['champData'] = info
-      req.headers['api_key'] = ENV['PRIVATE_KEY']
+      req.url "/api/lol/static-data/na/v1.2/champion/#{champion}"
+      req.params['champData'] = info
+      req.params['api_key'] = ENV['PRIVATE_KEY']
     end
     champion_info =  JSON.parse(response.body, symbolize_names: true)
     champion_info[:stats][:attackspeed] = (0.625/(1+champion_info[:stats][:attackspeedoffset])).round(3)

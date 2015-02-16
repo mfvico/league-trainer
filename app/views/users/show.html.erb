@@ -1,1 +1,10 @@
-test
+<h2>What would you like to do?</h2>
+<p>
+  <%= link_to "Rune Pages", user_runes_path(user_id: current_user.id) %>
+</p>
+<p>
+  <%= link_to "Mastery Pages", user_masteries_path(user_id: current_user.id) %>
+</p>
+<p>
+  <%= link_to "Game History", user_match_history_path(user_id: current_user.id) %>
+</p>

@@ -9,14 +9,17 @@ class Item
 
   def item_list
     response = @conn.get do |req|
-      req.url "/api/lol/static-data/na/v1.2/item?api_key=#{ENV['PRIVATE_KEY']}"
+      req.url "/api/lol/static-data/na/v1.2/item"
+      req.params['api_key'] = ENV['PRIVATE_KEY']
     end
     raw_data = JSON.parse(response.body, symbolize_names: true)
   end
 
   def item_details(id)
     response = @conn.get do |req|
-      req.url "/api/lol/static-data/na/v1.2/item/#{id}?itemData=all&api_key=#{ENV['PRIVATE_KEY']}"
+      req.url "/api/lol/static-data/na/v1.2/item/#{id}"
+      req.params['api_key'] = ENV['PRIVATE_KEY']
+      req.params['itemData'] = 'all'
     end
     raw_data =  JSON.parse(response.body, symbolize_names: true)
   end
