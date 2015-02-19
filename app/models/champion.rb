@@ -41,7 +41,10 @@ class Champion
   def champion_info(info, champion)
     response = @conn.get do |req|
       req.url "/api/lol/static-data/na/v1.2/champion/#{champion}"
-      req.params['champData'] = info
+      req.params['champData'] =''
+      info.each do |i|
+        req.params['champData'] += i+","
+      end
       req.params['api_key'] = ENV['PRIVATE_KEY']
     end
     champion_info =  JSON.parse(response.body, symbolize_names: true)

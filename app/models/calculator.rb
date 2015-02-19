@@ -9,6 +9,7 @@ class Calculator
     FlatArmorMod: {stat: :armor, math: MATH_PROCS[:add]},
     PercentAttackSpeedMod:{stat: :attackspeed, math: MATH_PROCS[:percent]},
     PercentMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:percent]},
+    PercentLifeStealMod:{stat: :lifesteal, math: MATH_PROCS[:add]},
     FlatMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:add]},
     FlatCritChanceMod:{stat: :crit, math: MATH_PROCS[:add]},
     FlatHPPoolMod:{stat: :hp, math: MATH_PROCS[:add]},
@@ -19,7 +20,7 @@ class Calculator
   }
 
   def initialize(champion)
-    @champion = Champion.new.stats_per_level('all', champion, 18)
+    @champion = Champion.new.stats_per_level(['stats', 'partype'], champion, 18)
     @item_list = Item.new.item_list
   end
 
@@ -27,6 +28,7 @@ class Calculator
     items = item_compiler(item_array)
     @champion[:stats_with_items] = @champion[:stats]
     @champion[:stats_with_items][:ap] = 0
+    @champion[:stats_with_items][:lifesteal] = 0
 
     items.each do |item|
       item[:stats].each do |stat_key, stat_value|
@@ -40,6 +42,10 @@ class Calculator
     end
 
     @champion
+  end
+
+  def item_array(id_array)
+    item_compiler(id_array)
   end
 
   private

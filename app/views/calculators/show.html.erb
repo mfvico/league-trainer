@@ -5,6 +5,7 @@
 <h4>Which build do you want to try?</h4>
 
 <%= link_to "Mage Build", calculator_path(build: [3001, 3116, 3174, 3165, 3020, 3026]) %>
+<%= link_to "ADC Build", calculator_path(build: [3087, 3031, 3072, 3006, 3153, 3085]) %>
 
 <table class="table table-condensed">
   <thead>
@@ -50,7 +51,11 @@
     </tr>
     <tr>
       <td>Crit %</td>
-      <td> <%= @champion[:stats_with_items][:crit] %> </td>
+      <td> <%= @champion[:stats_with_items][:crit] * 100 %>% </td>
+    </tr>
+    <tr>
+      <td>Lifesteal</td>
+      <td> <%= @champion[:stats_with_items][:lifesteal] * 100 %>% </td>
     </tr>
     <tr>
       <td>Movement Speed</td>
@@ -62,3 +67,26 @@
     </tr>
   </tbody>
 </table>
+<% if @item_array %>
+  <table class='table'>
+    <thead>
+      <th>Item Name</th>
+      <th>Description</th>
+      <th>stats</th>
+    </thead>
+    <tbody>
+
+      <% @item_array.each do |item| %>
+        <tr>
+          <td><%= item[:name] %></td>
+          <td><%= item[:plaintext] %></td>
+          <% item[:stats].each do |key, value| %>
+            <td>
+              <p><%= key %>: <%= value %> </p>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
