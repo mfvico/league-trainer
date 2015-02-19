@@ -9,6 +9,7 @@ class Calculator
     FlatArmorMod: {stat: :armor, math: MATH_PROCS[:add]},
     PercentAttackSpeedMod:{stat: :attackspeed, math: MATH_PROCS[:percent]},
     PercentMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:percent]},
+    FlatMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:add]},
     FlatCritChanceMod:{stat: :crit, math: MATH_PROCS[:add]},
     FlatHPPoolMod:{stat: :hp, math: MATH_PROCS[:add]},
     FlatMagicDamageMod:{stat: :ap, math: MATH_PROCS[:add]},
@@ -18,7 +19,7 @@ class Calculator
   }
 
   def initialize(champion)
-    @champion = Champion.new.stats_per_level('stats', champion, 18)
+    @champion = Champion.new.stats_per_level('all', champion, 18)
     @item_list = Item.new.item_list
   end
 
@@ -32,7 +33,7 @@ class Calculator
         item_attrs = ITEM_ATTRS[stat_key]
         champ_stat = @champion[:stats_with_items][item_attrs[:stat]]
 
-        new_value = item_attrs[:math].call(champ_stat, stat_value)
+        new_value = (item_attrs[:math].call(champ_stat, stat_value)).round(3)
 
         @champion[:stats_with_items][item_attrs[:stat]] = new_value
       end

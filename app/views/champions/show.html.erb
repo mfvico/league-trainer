@@ -1,9 +1,10 @@
 <h1><%= @champion[:name] %></h1>
 <h3><%= @champion[:title] %></h3>
+<h4> <%= @champion[:partype] %> </h4>
 <table>
   <thead>
-    <th>Stat(all values at lvl 1)</th>
-    <th>Stat</th>
+    <th>Stat Name</th>
+    <th>Stat Value</th>
   </thead>
   <tbody>
     <tr>
@@ -20,7 +21,7 @@
       <td><%= @champion[:stats][:mp] %> </td>
     </tr>
     <tr>
-      <td><%= @champion[:resource] %> Regen</td>
+      <td><%= @champion[:partype] %> Regen</td>
       <% if @champion[:stats][:mpregen] == 0 %>
         <td>0</td>
       <% else %>

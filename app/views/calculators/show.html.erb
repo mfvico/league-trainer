@@ -1,2 +1,64 @@
-<h1><%= @name %></h1>
-<%= @hp %>
+<h2><%= @champion[:name] %></h2>
+<h3> <%= @champion[:title] %></h3>
+
+
+<h4>Which build do you want to try?</h4>
+
+<%= link_to "Mage Build", calculator_path(build: [3001, 3116, 3174, 3165, 3020, 3026]) %>
+
+<table class="table table-condensed">
+  <thead>
+    <th>Stat Name</th>
+    <th>Stat Value</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Health</td>
+      <td> <%= @champion[:stats_with_items][:hp] %> </td>
+    </tr>
+    <tr>
+      <td>HP Regen</td>
+      <td> <%= @champion[:stats_with_items][:hpregen] %> </td>
+    </tr>
+    <tr>
+      <td> <%= @champion[:partype] %></td>
+      <td> <%= @champion[:stats_with_items][:mp] %> </td>
+    </tr>
+    <tr>
+      <td> <%= @champion[:partype] %> Regen</td>
+      <% if @champion[:stats_with_items][:mpregen] == 0 %>
+        <td>0</td>
+      <% else%>
+        <td> <%= @champion[:stats_with_items][:mpregen] %> </td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>Attack Damage</td>
+      <td> <%= @champion[:stats_with_items][:attackdamage] %> </td>
+    </tr>
+    <tr>
+      <td>Ability Power</td>
+      <td> <%= @champion[:stats_with_items][:ap] %> </td>
+    </tr>
+    <tr>
+      <td>Armor</td>
+      <td> <%= @champion[:stats_with_items][:armor] %> </td>
+    </tr>
+    <tr>
+      <td>Magic Resist</td>
+      <td> <%= @champion[:stats_with_items][:spellblock] %> </td>
+    </tr>
+    <tr>
+      <td>Crit %</td>
+      <td> <%= @champion[:stats_with_items][:crit] %> </td>
+    </tr>
+    <tr>
+      <td>Movement Speed</td>
+      <td> <%= @champion[:stats_with_items][:movespeed] %> </td>
+    </tr>
+    <tr>
+      <td>Attack Speed</td>
+      <td> <%= @champion[:stats_with_items][:attackspeed] %> </td>
+    </tr>
+  </tbody>
+</table>

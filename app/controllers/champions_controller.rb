@@ -2,7 +2,6 @@ class ChampionsController < ApplicationController
 require 'json'
 require 'open-uri'
   def index
-    league_api = LeagueAPI.new
     @champions = Champion.new.champion_list
   end
 
