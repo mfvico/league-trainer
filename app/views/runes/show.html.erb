@@ -1,2 +1,16 @@
-<%= @rune_page %>
-<%= @rune_hash %>
+<table class='table'>
+  <thead>
+    <th>Name</th>
+    <th>Count</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <% @rune_hash.each do |key, value| %>
+    <tr>
+      <td><%= value[:stats][:name] %> </td>
+      <td><%= value[:count] %> </td>
+      <td><%= value[:stats][:description] %> </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
