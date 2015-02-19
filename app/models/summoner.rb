@@ -29,7 +29,7 @@ class Summoner
   end
 
   def summoner_masteries(summoner)
-    esponse = @conn.get do |req|
+    response = @conn.get do |req|
       req.url "api/lol/na/v1.4/summoner/#{summoner}/masteries"
       req.params['api_key'] = ENV['PRIVATE_KEY']
     end
