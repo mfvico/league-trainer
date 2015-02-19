@@ -50,10 +50,10 @@ class Calculator
 
   private
 
-  def item_compiler(item_id_array)
+  def item_compiler(id_array)
     item_array = []
 
-    item_id_array.each do |item|
+    id_array.each do |item|
       item_stats = Item.new.item_details(item)
       item_array << item_stats
     end
