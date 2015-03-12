@@ -3,6 +3,10 @@ require 'faraday'
 
 class Item
 
+  ITEM_STATS = {
+    "Mana" => :mana
+  }
+
   def initialize
     @conn = Faraday.new(:url => 'https://na.api.pvp.net')
   end
@@ -22,26 +26,37 @@ class Item
       req.params['itemData'] = 'all'
     end
     raw_data =  JSON.parse(response.body, symbolize_names: true)
+    unique_abilites(raw_data)
+    weird_stats(raw_data)
   end
 
   private
 
-  # def conversion(input)
-  #   input[:stats] ||= []
-  #   input[:unique] ||= []
-  #   stats_doc = Nokogiri::HTML(input[:description].gsub('<br>', '||||'))
-  #   unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>', '||||'))
-  #   stats_array = stats_doc.css('stats').text.split('||||')
-  #   unique_array = unique_doc.text.split("||||")
-  #   unique = unique_array.pop
-  #   input[:unique] << unique
-  #   stats_array.each do |stats|
-  #     stats_data = stats.split(' ')
-  #     stats_hash = Hash[stats_data[1].to_sym => stats_data[0].to_i]
-  #     input[:stats] << stats_hash
-  #   end
-  #   input
-  # end
+  def unique_abilites(input)
+    unique_hash = {}
+    input[:unique] ||= []
+    unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>', '||||'))
+    unique_array = unique_doc.text.split("||||")[1].split('UNIQUE Passive - ').reject! {|u| u.empty?}
+    unique_array.each do |u|
+      unique_name = u.split(': ')[0]
+      unique_description = u.split(': ')[1]
+      unique_hash[unique_name.to_sym] = unique_description
+      input[:unique] << unique_hash
+    end
+    input
+  end
+
+  def weird_stats(input)
+    unique_hash = {}
+    unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>','||||').gsub('<br>', '++++'))
+    stat_array = unique_doc.text.split("||||")
+    stat_array[0].split("++++").each do |stats|
+      setup = stats.split(' ')
+      input[:stats][ITEM_STATS[stats[1]]] ||= stats[0]
+      binding.pry
+    end
+
+  end
 
 
 

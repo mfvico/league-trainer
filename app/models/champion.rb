@@ -41,7 +41,6 @@ class Champion
   def champion_info(info, champion)
     response = @conn.get do |req|
       req.url "/api/lol/static-data/na/v1.2/champion/#{champion}"
-      req.params['champData'] =''
       info.each do |i|
         req.params['champData'] += i+","
       end
