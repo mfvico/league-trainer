@@ -4,7 +4,18 @@ require 'faraday'
 class Item
 
   ITEM_STATS = {
-    "Mana" => :mana
+    "Health" => :FlatHPPoolMod,
+    "Bonus Health" => :PercentHPPoolMod,
+    "Base Health Regen" => :FlatHPRegenMod,
+    "Life Steal" => :PercentLifeStealMod,
+    "Mana" => :FlatMPPoolMod,
+    "Base Mana Regen" => :FlatMPRegenMod,
+    "Critical Strike Chance"=> :FlatCritChanceMod,
+    "Attack Damage" => :FlatPhysicalDamageMod,
+    "Ability Power" => :FlatMagicDamageMod,
+    "Movement Speed" => :FlatMovementSpeedMod,
+    "Magic Resist" => :FlatSpellBlockMod,
+    "Armor" => :FlatArmorMod,
   }
 
   def initialize
@@ -33,31 +44,41 @@ class Item
   private
 
   def unique_abilites(input)
-    unique_hash = {}
-    input[:unique] ||= []
-    unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>', '||||'))
-    unique_array = unique_doc.text.split("||||")[1].split('UNIQUE Passive - ').reject! {|u| u.empty?}
-    unique_array.each do |u|
-      unique_name = u.split(': ')[0]
-      unique_description = u.split(': ')[1]
-      unique_hash[unique_name.to_sym] = unique_description
-      input[:unique] << unique_hash
+    input[:passive] ||= []
+    unique_doc = Nokogiri::HTML(input[:description])
+    unique_desc = unique_doc.css('body').text.split('UNIQUE Passive')
+    unique_desc = unique_desc[1..unique_desc.length-1]
+    unique_desc.each do |u|
+      hash = {}
+      array = u.split(' - ')[-1]
+      if array.match(/(UNIQUE Active)/)
+        active_hash = {}
+        active_array = array.split('UNIQUE Active')[-1].split(': ')
+        active_hash[active_array[0]] = active_array[1]
+        input[:active] = active_hash
+      end
+      passive_array  = array.split('UNIQUE Active')[0].split(': ')
+      hash[passive_array[0]] = passive_array[1]
+      input[:passive] << hash
     end
     input
   end
 
   def weird_stats(input)
     unique_hash = {}
-    unique_doc = Nokogiri::HTML(input[:description].gsub('</stats>','||||').gsub('<br>', '++++'))
-    stat_array = unique_doc.text.split("||||")
-    stat_array[0].split("++++").each do |stats|
-      setup = stats.split(' ')
-      input[:stats][ITEM_STATS[stats[1]]] ||= stats[0]
-      binding.pry
-    end
+    stat_doc = Nokogiri::HTML(input[:description].gsub('<br>', '++++'))
+    stat_doc = stat_doc.css('stats').text.split('++++')
+    stat_doc.each do |value|
+      value = value.split(' ')
 
+      stat_value = value[0]
+      stat_name = value[1..value.length-1].join(' ').split(" (")[0]
+      input[:stats][ITEM_STATS[stat_name]] ||= stat_value
+    end
+    input
   end
 
+  # Item.new.item_details(3153)
 
 
 end

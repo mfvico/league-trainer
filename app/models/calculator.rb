@@ -99,7 +99,7 @@ class Calculator
         item_attrs = ITEM_ATTRS[stat_key]
         champ_stat = @champion[:stats_with_items][item_attrs[:stat]]
 
-        new_value = (item_attrs[:math].call(champ_stat, stat_value)).round(3)
+        new_value = (stat_value)).round(3)
 
         @champion[:stats_with_items][item_attrs[:stat]] = new_value
       end
