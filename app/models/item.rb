@@ -13,9 +13,10 @@ class Item
     "Critical Strike Chance"=> :FlatCritChanceMod,
     "Attack Damage" => :FlatPhysicalDamageMod,
     "Ability Power" => :FlatMagicDamageMod,
-    "Movement Speed" => :FlatMovementSpeedMod,
+    "Movement Speed" => :PercentMovementSpeedMod,
     "Magic Resist" => :FlatSpellBlockMod,
     "Armor" => :FlatArmorMod,
+    "Attack Speed" => :PercentAttackSpeedMod
   }
 
   def initialize
@@ -73,7 +74,7 @@ class Item
 
       stat_value = value[0]
       stat_name = value[1..value.length-1].join(' ').split(" (")[0]
-      input[:stats][ITEM_STATS[stat_name]] ||= stat_value
+      input[:stats][ITEM_STATS[stat_name]] ||= stat_value.to_f
     end
     input
   end

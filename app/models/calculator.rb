@@ -4,9 +4,9 @@ class Calculator
     add: ->(stat, increase) { stat + increase },
     percent: ->(stat, increase) { (stat * (1+increase)).round(3) },
     add_per_level: ->(stat, increase, level) { stat + (increase * level) },
-    percent_per_level: ->(stat, increase, level) {(stat * (1 + (increase*level))).round(3)}
+    percent_per_level: ->(stat, increase, level) {(stat * (1 + (increase*level))).round(3)},
     block_add: -> (stat_array, increase) {stat_array.each do |stat|
-    stat + increase
+      stat + increase
     end
     }
   }
@@ -88,7 +88,7 @@ class Calculator
     @item_list = Item.new.item_list
   end
 
-  def data_calculation(item_array)
+  def item_calculation(item_array)
     items = item_compiler(item_array)
     @champion[:stats_with_items] = @champion[:stats]
     @champion[:stats_with_items][:ap] = 0
@@ -99,7 +99,7 @@ class Calculator
         item_attrs = ITEM_ATTRS[stat_key]
         champ_stat = @champion[:stats_with_items][item_attrs[:stat]]
 
-        new_value = (stat_value)).round(3)
+        new_value = (item_attrs[:math].call(champ_stat, stat_value)).round(3)
 
         @champion[:stats_with_items][item_attrs[:stat]] = new_value
       end

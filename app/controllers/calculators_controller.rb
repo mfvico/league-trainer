@@ -8,7 +8,7 @@ class CalculatorsController < ApplicationController
       @champion[:stats_with_items][:lifesteal] = 0
 
     else
-      @champion = Calculator.new(params[:id]).data_calculation(params[:build])
+      @champion = Calculator.new(params[:id]).item_calculation(params[:build])
       @item_array = Calculator.new(params[:id]).item_array(params[:build])
     end
 
