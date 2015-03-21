@@ -9,14 +9,16 @@ class Item
     "Base Health Regen" => :FlatHPRegenMod,
     "Life Steal" => :PercentLifeStealMod,
     "Mana" => :FlatMPPoolMod,
-    "Base Mana Regen" => :FlatMPRegenMod,
+    "Base Mana Regen" => :PercentMPRegenMod,
     "Critical Strike Chance"=> :FlatCritChanceMod,
     "Attack Damage" => :FlatPhysicalDamageMod,
     "Ability Power" => :FlatMagicDamageMod,
     "Movement Speed" => :PercentMovementSpeedMod,
     "Magic Resist" => :FlatSpellBlockMod,
     "Armor" => :FlatArmorMod,
-    "Attack Speed" => :PercentAttackSpeedMod
+    "Attack Speed" => :PercentAttackSpeedMod,
+    "Cooldown Reduction" => :PercentCooldownReductionMod,
+    "Magic Penetration" => :FlatMagicPenetrationMod,
   }
 
   def initialize

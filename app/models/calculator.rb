@@ -3,6 +3,7 @@ class Calculator
   MATH_PROCS = {
     add: ->(stat, increase) { stat + increase },
     percent: ->(stat, increase) { (stat * (1+increase)).round(3) },
+    regen_percent: ->(stat, increase) { (stat * (1+(increase/100))).round(3)},
     add_per_level: ->(stat, increase, level) { stat + (increase * level) },
     percent_per_level: ->(stat, increase, level) {(stat * (1 + (increase*level))).round(3)},
     block_add: -> (stat_array, increase) {stat_array.each do |stat|
@@ -11,7 +12,7 @@ class Calculator
     }
   }
 
-  RUNE_FLAT_ATTRS = {
+  RUNE_ATTRS = {
     FlatArmorMod: {stat: :armor, math: MATH_PROCS[:add]},
     rFlatArmorPenetrationMod: {stat: :armorpen, math: MATH_PROCS[:add]},
     FlatBlockMod: {stat: :spellblock, math: MATH_PROCS[:block_add]}, #do for both armor and mr
@@ -29,8 +30,8 @@ class Calculator
     rFlatMagicPenetrationMod: {stat: :magicpen, math: MATH_PROCS[:add]},
     rPercentCooldownMod: {stat: :cooldown, math: MATH_PROCS[:add]},
     rPercentTimeDeadMod: {stat: :deathtimer, math: MATH_PROCS[:add]},
-  }
-  RUNE_PERCENT_ATTRS = {
+
+  # RUNE_PERCENT_ATTRS
     PercentArmorMod: {stat: :armor, math: MATH_PROCS[:percent]},
     PercentAttackSpeedMod: {stat: :attackspeed, math: MATH_PROCS[:percent]},
     PercentBlockMod: {stat: [:armor, :spellblock], math: MATH_PROCS[:block_percent]}, #do for both armor and mr
@@ -39,7 +40,7 @@ class Calculator
     PercentEXPBonus: {stat: :exp, math: MATH_PROCS[:add]},
     PercentHPPoolMod: {stat: :hp, math: MATH_PROCS[:percent]},
     PercentHPRegenMod: {stat: :hpregen, math: MATH_PROCS[:percent]},
-    PercentLifestealMod: {stat: :lifesteal, math: MATH_PROCS[:add]},
+    PercentLifeStealMod: {stat: :lifesteal, math: MATH_PROCS[:add]},
     PercentMPPoolMod: {stat: :mp, math: MATH_PROCS[:percent]},
     PercentMPRegenMod: {stat: :mpregen, math: MATH_PROCS[:percent]},
     PercentMagicDamageMod: {stat: :ap, math: MATH_PROCS[:percent]},
@@ -48,8 +49,8 @@ class Calculator
     PercentSpellBlockMod: {stat: :spellblock, math: MATH_PROCS[:percent]},
     PercentSpellVampMod: {stat: :spellvamp, math: MATH_PROCS[:percent]},
     rPercentMagicPenetrationMod: {stat: :magicpen, math: MATH_PROCS[:percent]},
-  }
-  RUNE_FLAT_PER_LVL_ATTRS = {
+
+  # RUNE_FLAT_PER_LVL_ATTRS
     rFlatArmorModPerLevel: {stat: :armor, math: MATH_PROCS[:add_per_level]},
     rFlatArmorModPerLevel: {stat: :armor, math: MATH_PROCS[:add_per_level]},
     rFlatEnergyModPerLevel: {stat: :mp, math: MATH_PROCS[:add_per_level]},
@@ -63,9 +64,8 @@ class Calculator
     rFlatPhysicalDamageModPerLevel: {stat: :attackdamage, math: MATH_PROCS[:add_per_level]},
     rFlatSpellBlockModPerLevel: {stat: :spellblock, math: MATH_PROCS[:add_per_level]},
     rPercentCooldownModPerLevel: {stat: :cooldown, math: MATH_PROCS[:add_per_level]},
-  }
 
-  RUNE_PERCENT_PER_LEVEL_ATTRS = {
+  # RUNE_PERCENT_PER_LEVEL_ATTRS
     rPercentAttackSpeedModPerLevel: {stat: :attackspeed, math: MATH_PROCS[:percent_per_level]},
   }
 
@@ -81,6 +81,9 @@ class Calculator
     FlatPhysicalDamageMod:{stat: :attackdamage, math: MATH_PROCS[:add]},
     FlatMPPoolMod: {stat: :mp, math: MATH_PROCS[:add]},
     FlatSpellBlockMod:{stat: :spellblock, math: MATH_PROCS[:add]},
+    PercentCooldownReductionMod:{stat: :cooldown, math: MATH_PROCS[:add]},
+    PercentMPRegenMod:{stat: :mpregen, math: MATH_PROCS[:regen_percent]},
+    FlatMagicPenetrationMod:{stat: :magicpen, math: MATH_PROCS[:add]},
   }
 
   def initialize(champion)
@@ -88,19 +91,32 @@ class Calculator
     @item_list = Item.new.item_list
   end
 
+  def rune_calculation(summoner_id, page_id)
+    @champion[:stats_with_items] ||= @champion[:stats]
+    rune_page = Rune.new.rune_page(summoner_id, page_id)
+    rune_page.each do |id, rune|
+      rune[:stats][:stats].each do |key, value|
+        rune_attrs = RUNE_ATTRS[key]
+      binding.pry
+        champ_stat = @champion[:stats_with_items][rune_attrs[:stat]] ||= 0
+        new_value = (rune_attrs[:math].call(champ_stat, value)).round(3)
+        @champion[:stats_with_items][rune_attrs[:stat]] = new_value
+      end
+    end
+    @champion
+  end
+
   def item_calculation(item_array)
     items = item_compiler(item_array)
-    @champion[:stats_with_items] = @champion[:stats]
-    @champion[:stats_with_items][:ap] = 0
-    @champion[:stats_with_items][:lifesteal] = 0
-
+    @champion[:stats_with_items] ||= @champion[:stats]
+    @champion[:stats_with_items][:lifesteal] ||= 0
     items.each do |item|
       item[:stats].each do |stat_key, stat_value|
         item_attrs = ITEM_ATTRS[stat_key]
+
+        @champion[:stats_with_items][item_attrs[:stat]] ||= 0
         champ_stat = @champion[:stats_with_items][item_attrs[:stat]]
-
         new_value = (item_attrs[:math].call(champ_stat, stat_value)).round(3)
-
         @champion[:stats_with_items][item_attrs[:stat]] = new_value
       end
     end
@@ -123,5 +139,7 @@ class Calculator
     end
     item_array
   end
+
+  # Calculator.new(101).rune_calculation(30323679, 27086234)
 
 end
