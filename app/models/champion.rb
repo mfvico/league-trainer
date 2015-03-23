@@ -30,9 +30,13 @@ class Champion
     @conn = Faraday.new(:url => 'https://na.api.pvp.net')
   end
 
-  def champion_list
+  def champion_list(info)
     response = @conn.get do |req|
       req.url "/api/lol/static-data/na/v1.2/champion"
+      info.each do |i|
+        req.params['champData'] ||= ''
+        req.params['champData'] += i + ','
+      end
       req.params['api_key'] = ENV['PRIVATE_KEY']
     end
     raw_data =  JSON.parse(response.body, symbolize_names: true)
@@ -43,7 +47,7 @@ class Champion
       req.url "/api/lol/static-data/na/v1.2/champion/#{champion}"
       req.params['champData'] = ''
       info.each do |i|
-        req.params['champData'] += i+","
+        req.params['champData'] += i + ","
       end
       req.params['api_key'] = ENV['PRIVATE_KEY']
     end

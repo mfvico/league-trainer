@@ -91,6 +91,19 @@ class Calculator
     @item_list = Item.new.item_list
   end
 
+  def data_calculation(item_array, summoner_id, page_id)
+    champion = item_calculation(item_array)
+    rune_calculation(summoner_id, page_id) if page_id
+    champion
+  end
+
+
+  def item_array(id_array)
+    item_compiler(id_array)
+  end
+
+  private
+
   def rune_calculation(summoner_id, page_id)
     @champion[:stats_with_items] ||= @champion[:stats]
     rune_page = Rune.new.rune_page(summoner_id, page_id)
@@ -127,11 +140,6 @@ class Calculator
     @champion
   end
 
-  def item_array(id_array)
-    item_compiler(id_array)
-  end
-
-  private
 
   def item_compiler(id_array)
     item_array = []

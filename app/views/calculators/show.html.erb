@@ -41,7 +41,10 @@
     </tr>
     <tr>
       <td>Ability Power</td>
-      <td> <%= @champion[:stats_with_items][:ap] %> </td>
+      <% if @champion[:stats_with_items][:ap] %>
+        <td> <%= @champion[:stats_with_items][:ap] %> </td>
+      <% else %>
+        <td> 0 </td>
     </tr>
     <tr>
       <td>Armor</td>
