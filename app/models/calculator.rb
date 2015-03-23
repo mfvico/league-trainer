@@ -97,9 +97,12 @@ class Calculator
     rune_page.each do |id, rune|
       rune[:stats][:stats].each do |key, value|
         rune_attrs = RUNE_ATTRS[key]
-      binding.pry
         champ_stat = @champion[:stats_with_items][rune_attrs[:stat]] ||= 0
-        new_value = (rune_attrs[:math].call(champ_stat, value)).round(3)
+        if key.match(/(PerLevel)/)
+          new_value = (rune_attrs[:math].call(champ_stat, value, 18)).round(3)
+        else
+          new_value = (rune_attrs[:math].call(champ_stat, value)).round(3)
+        end
         @champion[:stats_with_items][rune_attrs[:stat]] = new_value
       end
     end
