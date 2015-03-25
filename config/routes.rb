@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :items
 
   root "pages#index"
+  get 'riot' => 'pages#riot'
 
   get 'signup' => 'registrations#new', as: :signup
   post 'signup' => 'registrations#create'

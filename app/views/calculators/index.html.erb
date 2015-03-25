@@ -1,8 +1,8 @@
 test
 
 <h4>Select the champion!</h4>
-<%= form_tag(:url => {:controller => "calculators_controller", :action => "display"}, :method => "get") do %>
+<%= form_tag calculators_path do %>
   <%= select_tag "Champion", options_for_select((@champion[:data].collect {|champ, data| [champ, data[:id] ] }).sort) %>
-  <%= select_tag "Runes", options_for_select(@runes.collect{|page| [page[:name], page[:id]]}) %>
-  <%= submit_tag "Submit", id: 'search' %>
+  <%= select_tag "Runes", options_for_select(@runes.collect{|page| [page[:name], page[:id]]})%>
+  <%= submit_tag "Submit", id: 'submit' %>
 <% end %>

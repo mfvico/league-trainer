@@ -68,7 +68,9 @@ class Item
   end
 
   def weird_stats(input)
-    unique_hash = {}
+    if input[:name] == "The Bloodthirster"
+      input[:stats][:PercentLifeStealMod] = 0.20
+    end
     stat_doc = Nokogiri::HTML(input[:description].gsub('<br>', '++++'))
     stat_doc = stat_doc.css('stats').text.split('++++')
     stat_doc.each do |value|
