@@ -11,7 +11,6 @@ class CalculatorsController < ApplicationController
   end
 
   def show
-    binding.pry
     if params[:build] == nil
       @champion = Champion.new.stats_per_level(['stats', 'partype'], params[:id], 18)
       @champion[:stats_with_items] = @champion[:stats]
