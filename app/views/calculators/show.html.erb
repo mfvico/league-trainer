@@ -86,9 +86,9 @@
         <tr>
           <td><%= item[:name] %></td>
           <td><%= item[:plaintext] %></td>
-          <% item[:stats].each do |key, value| %>
+          <% item[:display_stats].each do |stat| %>
             <td>
-              <p><%= key %>: <%= value %> </p>
+              <p><%= stat %></p>
             </td>
           <% end %>
         </tr>

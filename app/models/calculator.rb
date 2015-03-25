@@ -77,6 +77,7 @@ class Calculator
     FlatMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:add]},
     FlatCritChanceMod:{stat: :crit, math: MATH_PROCS[:add]},
     FlatHPPoolMod:{stat: :hp, math: MATH_PROCS[:add]},
+    FlatHPRegenMod:{stat: :hp, math: MATH_PROCS[:regen_percent]},
     FlatMagicDamageMod:{stat: :ap, math: MATH_PROCS[:add]},
     FlatPhysicalDamageMod:{stat: :attackdamage, math: MATH_PROCS[:add]},
     FlatMPPoolMod: {stat: :mp, math: MATH_PROCS[:add]},
@@ -129,7 +130,7 @@ class Calculator
     items.each do |item|
       item[:stats].each do |stat_key, stat_value|
         item_attrs = ITEM_ATTRS[stat_key]
-
+binding.pry
         @champion[:stats_with_items][item_attrs[:stat]] ||= 0
         champ_stat = @champion[:stats_with_items][item_attrs[:stat]]
         new_value = (item_attrs[:math].call(champ_stat, stat_value)).round(3)

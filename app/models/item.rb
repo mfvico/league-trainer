@@ -68,6 +68,7 @@ class Item
   end
 
   def weird_stats(input)
+    input[:display_stats] = []
     if input[:name] == "The Bloodthirster"
       input[:stats][:PercentLifeStealMod] = 0.20
     end
@@ -75,10 +76,10 @@ class Item
     stat_doc = stat_doc.css('stats').text.split('++++')
     stat_doc.each do |value|
       value = value.split(' ')
-
       stat_value = value[0]
       stat_name = value[1..value.length-1].join(' ').split(" (")[0]
       input[:stats][ITEM_STATS[stat_name]] ||= stat_value.to_f
+      input[:display_stats] << "#{stat_name}: #{stat_value}"
     end
     input
   end
