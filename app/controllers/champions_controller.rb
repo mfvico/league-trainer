@@ -2,7 +2,8 @@ class ChampionsController < ApplicationController
 require 'json'
 require 'open-uri'
   def index
-    @champions = Champion.new.champion_list(['all'])
+    @champions = Champion.new.champion_list(['all'])[:data].sort_by {|key, value| key}
+    binding.pry
   end
 
   def show

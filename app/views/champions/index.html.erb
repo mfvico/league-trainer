@@ -8,7 +8,7 @@
   </thead>
   <tbody>
 
-    <% @champions[:data].each do |champion, info| %>
+    <% @champions.each do |champion, info| %>
         <tr>
           <td>
             <%= link_to info[:name], champion_path(info[:id]) %>
