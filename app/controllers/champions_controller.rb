@@ -2,7 +2,7 @@ class ChampionsController < ApplicationController
 require 'json'
 require 'open-uri'
   def index
-    @champions = Champion.new.champion_list(['name', 'title'])
+    @champions = Champion.new.champion_list(['all'])
   end
 
   def show
