@@ -77,7 +77,7 @@ class Calculator
     FlatMovementSpeedMod:{stat: :movespeed, math: MATH_PROCS[:add]},
     FlatCritChanceMod:{stat: :crit, math: MATH_PROCS[:add]},
     FlatHPPoolMod:{stat: :hp, math: MATH_PROCS[:add]},
-    FlatHPRegenMod:{stat: :hp, math: MATH_PROCS[:regen_percent]},
+    FlatHPRegenMod:{stat: :hpregen, math: MATH_PROCS[:regen_percent]},
     FlatMagicDamageMod:{stat: :ap, math: MATH_PROCS[:add]},
     FlatPhysicalDamageMod:{stat: :attackdamage, math: MATH_PROCS[:add]},
     FlatMPPoolMod: {stat: :mp, math: MATH_PROCS[:add]},
