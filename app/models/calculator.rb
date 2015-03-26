@@ -150,7 +150,4 @@ class Calculator
     end
     item_array
   end
-
-  # Calculator.new(101).rune_calculation(30323679, 27086234)
-
 end
